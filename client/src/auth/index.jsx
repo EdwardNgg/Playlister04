@@ -12,6 +12,7 @@ export const AuthActionType = {
   LOGIN_USER: 'LOGIN_USER',
   LOGOUT_USER: 'LOGOUT_USER',
   REGISTER_USER: 'REGISTER_USER',
+  ALERT_USER: 'ALERT_USER',
 };
 
 function AuthContextProvider({ children }) {
@@ -32,6 +33,7 @@ function AuthContextProvider({ children }) {
         return setAuth({
           user: payload.user,
           loggedIn: payload.loggedIn,
+          errorMessage: null,
         });
       }
       case AuthActionType.REGISTER_USER:
@@ -39,12 +41,21 @@ function AuthContextProvider({ children }) {
         return setAuth({
           user: payload.user,
           loggedIn: true,
+          errorMessage: null,
         });
       }
       case AuthActionType.LOGOUT_USER: {
         return setAuth({
           user: null,
           loggedIn: false,
+          errorMessage: null,
+        });
+      }
+      case AuthActionType.ALERT_USER: {
+        return setAuth({
+          user: null,
+          loggedIn: false,
+          errorMessage: payload.errorMessage,
         });
       }
       default:
@@ -122,6 +133,15 @@ function AuthContextProvider({ children }) {
     }
     console.log(`user initials: ${initials}`);
     return initials;
+  };
+
+  auth.alertUser = function alertUser(errorMessage) {
+    authReducer({
+      type: AuthActionType.ALERT_USER,
+      payload: {
+        errorMessage,
+      },
+    });
   };
 
   return (

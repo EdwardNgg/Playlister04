@@ -31,6 +31,7 @@ export const GlobalStoreActionType = {
   MARK_LIST_FOR_DELETION: 'MARK_LIST_FOR_DELETION',
   SET_CURRENT_LIST: 'SET_CURRENT_LIST',
   SET_LIST_NAME_EDIT_ACTIVE: 'SET_LIST_NAME_EDIT_ACTIVE',
+  ALERT_MODAL: 'ALERT_MODAL',
   EDIT_SONG: 'EDIT_SONG',
   REMOVE_SONG: 'REMOVE_SONG',
   HIDE_MODALS: 'HIDE_MODALS',
@@ -39,8 +40,9 @@ export const GlobalStoreActionType = {
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
 const tps = new JsTps();
 
-const CurrentModal = {
+export const CurrentModal = {
   NONE: 'NONE',
+  ALERT: 'ALERT',
   DELETE_LIST: 'DELETE_LIST',
   EDIT_SONG: 'EDIT_SONG',
   REMOVE_SONG: 'REMOVE_SONG',
@@ -199,6 +201,19 @@ function GlobalStoreContextProvider({ children }) {
           listMarkedForDeletion: null,
         });
       }
+      case GlobalStoreActionType.ALERT_MODAL: {
+        return setStore({
+          currentModal: CurrentModal.ALERT,
+          idNamePairs: store.idNamePairs,
+          currentList: null,
+          currentSongIndex: -1,
+          currentSong: null,
+          newListCounter: store.newListCounter,
+          listNameActive: false,
+          listIdMarkedForDeletion: null,
+          listMarkedForDeletion: null,
+        });
+      }
       case GlobalStoreActionType.HIDE_MODALS: {
         return setStore({
           currentModal: CurrentModal.NONE,
@@ -345,6 +360,12 @@ function GlobalStoreContextProvider({ children }) {
     storeReducer({
       type: GlobalStoreActionType.REMOVE_SONG,
       payload: { currentSongIndex: songIndex, currentSong: songToRemove },
+    });
+  };
+  store.showAlertModal = () => {
+    storeReducer({
+      type: GlobalStoreActionType.ALERT_MODAL,
+      payload: null,
     });
   };
   store.hideModals = () => {
