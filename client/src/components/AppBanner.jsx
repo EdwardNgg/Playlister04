@@ -35,6 +35,7 @@ export default function AppBanner() {
   const menuId = 'primary-search-account-menu';
   const loggedOutMenu = (
     <Menu
+      sx={{}}
       anchorEl={anchorEl}
       anchorOrigin={{
         vertical: 'top',
@@ -89,9 +90,15 @@ export default function AppBanner() {
     return <AccountCircle />;
   }
 
+  const boxStyle = {
+    height: '7.5%',
+  };
+  const appBarStyle = {
+    height: '100%',
+  };
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+    <Box sx={boxStyle}>
+      <AppBar sx={appBarStyle} position="static">
         <Toolbar>
           <Typography
             variant="h4"

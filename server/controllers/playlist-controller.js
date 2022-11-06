@@ -64,7 +64,7 @@ const deletePlaylist = async (req, res) => {
           console.log('correct user!');
           return Playlist.findOneAndDelete(
             { _id: req.params.id },
-            () => res.status(200).json({}).catch((err) => console.log(err)),
+            () => res.status(200).json({ success: true }),
           );
         }
         console.log('incorrect user!');
@@ -201,12 +201,15 @@ const updatePlaylist = async (req, res) => {
                 message: 'Playlist not updated!',
               });
             });
+        } else {
+          console.log('incorrect user!');
+          return res.status(400).json({ success: false, description: 'authentication error' });
         }
-        console.log('incorrect user!');
-        return res.status(400).json({ success: false, description: 'authentication error' });
+        return null;
       });
     }
-    return asyncFindUser(playlist);
+    asyncFindUser(playlist);
+    return null;
   });
   return null;
 };

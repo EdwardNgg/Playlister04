@@ -1,7 +1,8 @@
-import React, { useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useContext, useEffect } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
+import { Button, Typography } from '@mui/material';
 import SongCard from './SongCard';
 import MUIEditSongModal from './MUIEditSongModal';
 import MUIRemoveSongModal from './MUIRemoveSongModal';
@@ -15,6 +16,13 @@ import { GlobalStoreContext } from '../store';
 function WorkspaceScreen() {
   const { store } = useContext(GlobalStoreContext);
   store.history = useHistory();
+  const { id } = useParams();
+
+  useEffect(() => {
+    if (!store.currentList) {
+      store.setCurrentList(id);
+    }
+  }, []);
 
   let modalJSX = '';
   if (store.isEditSongModalOpen()) {
@@ -22,6 +30,26 @@ function WorkspaceScreen() {
   } else if (store.isRemoveSongModalOpen()) {
     modalJSX = <MUIRemoveSongModal />;
   }
+
+  if (!store.currentList) {
+    return (
+      <Box className="error-box">
+        <Typography className="error-type" variant="h3">
+          Oops!
+        </Typography>
+        <br />
+        <Typography className="error-type" variant="subtitle1">
+          Sorry, we cannot find that playlist.
+        </Typography>
+        <br />
+        <Button className="error-button" href="/">
+          Home
+        </Button>
+
+      </Box>
+    );
+  }
+
   return (
     <Box>
       <List

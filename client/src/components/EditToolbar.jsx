@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import RedoIcon from '@mui/icons-material/Redo';
@@ -14,6 +15,7 @@ import { GlobalStoreContext } from '../store';
 */
 function EditToolbar() {
   const { store } = useContext(GlobalStoreContext);
+  store.history = useHistory();
 
   function handleAddNewSong() {
     store.addNewSong();

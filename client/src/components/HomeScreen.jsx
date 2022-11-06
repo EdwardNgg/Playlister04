@@ -31,7 +31,6 @@ function HomeScreen() {
               // eslint-disable-next-line no-underscore-dangle
               key={pair._id}
               idNamePair={pair}
-              selected={false}
             />
           ))
         }
@@ -42,14 +41,15 @@ function HomeScreen() {
     <div id="playlist-selector">
       <div id="list-selector-heading">
         <Fab
-          color="primary"
+          sx={{ marginRight: '10px' }}
+          color="ffffff"
           aria-label="add"
           id="add-list-button"
           onClick={handleCreateNewList}
         >
           <AddIcon />
         </Fab>
-        <Typography variant="h2">Your Lists</Typography>
+        <Typography variant="h3">Your Lists</Typography>
       </div>
       <div id="list-selector-list">
         { listCard }

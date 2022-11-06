@@ -267,6 +267,7 @@ function GlobalStoreContextProvider({ children }) {
   store.changeListName = function changeListName(id, newName) {
     // GET THE LIST
     asyncChangeListName(id, newName);
+    history.push(`/playlist/${id}`);
   };
 
   // THIS FUNCTION PROCESSES CLOSING THE CURRENTLY LOADED LIST
@@ -276,6 +277,7 @@ function GlobalStoreContextProvider({ children }) {
       payload: {},
     });
     tps.clearAllTransactions();
+    history.push('');
   };
 
   // THIS FUNCTION CREATES A NEW LIST

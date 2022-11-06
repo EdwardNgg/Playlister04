@@ -1,64 +1,44 @@
-import React, { useContext } from 'react';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
+import React, { useContext, useRef } from 'react';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogActions from '@mui/material/DialogActions';
 import { GlobalStoreContext } from '../store';
-
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
 
 export default function MUIDeleteModal() {
   const { store } = useContext(GlobalStoreContext);
-  let name = '';
+  const name = useRef('');
   if (store.listMarkedForDeletion) {
-    name = store.listMarkedForDeletion.name;
+    name.current = store.listMarkedForDeletion.name;
   }
+
   function handleDeleteList(event) {
     event.preventDefault();
     store.deleteMarkedList();
   }
   function handleCloseModal(event) {
     event.preventDefault();
-    store.unmarkListForDeletion();
+    store.hideModals();
   }
 
   return (
-    <Modal
-      open={store.listMarkedForDeletion !== null}
-    >
-      <Box sx={style}>
-        <div className="modal-dialog">
-          <header className="dialog-header">
-            {`Delete the ${name} Top 5 List?`}
-          </header>
-          <div id="confirm-cancel-container">
-            <button
-              type="button"
-              id="dialog-yes-button"
-              className="modal-button"
-              onClick={handleDeleteList}
-            >
-              Confirm
-            </button>
-            <button
-              type="button"
-              id="dialog-no-button"
-              className="modal-button"
-              onClick={handleCloseModal}
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      </Box>
-    </Modal>
+    <Dialog open={store.listMarkedForDeletion !== null}>
+      <DialogTitle>
+        Delete Playlist?
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          Are you sure you want to permanently remove the
+          <strong>{` ${name.current} `}</strong>
+          playlist?
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleCloseModal}>Cancel</Button>
+        <Button onClick={handleDeleteList} autoFocus>Delete</Button>
+      </DialogActions>
+    </Dialog>
   );
 }
