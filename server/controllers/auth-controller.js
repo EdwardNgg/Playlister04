@@ -68,9 +68,10 @@ const loginUser = async (req, res) => {
     console.log(token);
 
     return res.cookie('token', token, {
+      domain: 'localhost',
       httpOnly: true,
       secure: true,
-      sameSite: true,
+      sameSite: 'Lax',
     }).status(200).json({
       success: true,
       user: {

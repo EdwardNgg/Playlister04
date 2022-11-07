@@ -15,7 +15,7 @@ function Statusbar() {
   }
   return (
     <div id="playlister-statusbar">
-      <Typography variant="h4">{text}</Typography>
+      <Typography className="status-type" variant="h3">{text}</Typography>
     </div>
   );
 }

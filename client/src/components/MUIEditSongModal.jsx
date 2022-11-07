@@ -1,20 +1,14 @@
 import React, { useContext, useState } from 'react';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-
-import { GlobalStoreContext } from '../store';
-
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  TextField,
+} from '@mui/material';
+import { GlobalStoreContext, CurrentModal } from '../store';
 
 export default function MUIEditSongModal() {
   const { store } = useContext(GlobalStoreContext);
@@ -43,61 +37,46 @@ export default function MUIEditSongModal() {
     setYouTubeId(event.target.value);
   }
 
+  const open = store.currentModal === CurrentModal.EDIT_SONG;
   return (
-    <Modal
-      open={store.listMarkedForDeletion !== null}
-    >
-      <Box sx={style}>
-        <div id="edit-song-modal" className="modal is-visible" data-animation="slideInOutLeft">
-          <div id="edit-song-root" className="modal-root">
-            <div id="edit-song-modal-header" className="modal-north">
-              Edit Song
-            </div>
-            <div id="edit-song-modal-content" className="modal-center">
-              <div id="title-prompt" className="modal-prompt">Title:</div>
-              <input
-                id="edit-song-modal-title-textfield"
-                className="modal-textfield"
-                type="text"
-                defaultValue={title}
-                onChange={handleUpdateTitle}
-              />
-              <div id="artist-prompt" className="modal-prompt">Artist:</div>
-              <input
-                id="edit-song-modal-artist-textfield"
-                className="modal-textfield"
-                type="text"
-                defaultValue={artist}
-                onChange={handleUpdateArtist}
-              />
-              <div id="you-tube-id-prompt" className="modal-prompt">You Tube Id:</div>
-              <input
-                id="edit-song-modal-youTubeId-textfield"
-                className="modal-textfield"
-                type="text"
-                defaultValue={youTubeId}
-                onChange={handleUpdateYouTubeId}
-              />
-            </div>
-            <div className="modal-south">
-              <input
-                type="button"
-                id="edit-song-confirm-button"
-                className="modal-button"
-                value="Confirm"
-                onClick={handleConfirmEditSong}
-              />
-              <input
-                type="button"
-                id="edit-song-cancel-button"
-                className="modal-button"
-                value="Cancel"
-                onClick={handleCancelEditSong}
-              />
-            </div>
-          </div>
-        </div>
-      </Box>
-    </Modal>
+    <Dialog open={open}>
+      <DialogTitle>
+        Edit Song?
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          To edit this song, please make changes to the title, artist, or YouTube ID.
+        </DialogContentText>
+        <br />
+        <TextField
+          id="edit-song-modal-title-textfield"
+          label="Title"
+          margin="dense"
+          fullWidth
+          value={title}
+          onChange={handleUpdateTitle}
+        />
+        <TextField
+          id="edit-song-modal-artist-textfield"
+          label="Artist"
+          margin="dense"
+          fullWidth
+          value={artist}
+          onChange={handleUpdateArtist}
+        />
+        <TextField
+          id="edit-song-modal-youTubeId-textfield"
+          label="YouTube ID"
+          margin="dense"
+          fullWidth
+          value={youTubeId}
+          onChange={handleUpdateYouTubeId}
+        />
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleCancelEditSong}>Cancel</Button>
+        <Button onClick={handleConfirmEditSong} autoFocus>Save Edits</Button>
+      </DialogActions>
+    </Dialog>
   );
 }

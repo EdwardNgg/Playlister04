@@ -22,7 +22,7 @@ function ListCard({ idNamePair }) {
   const { store } = useContext(GlobalStoreContext);
   store.history = useHistory();
   const [editActive, setEditActive] = useState(false);
-  const [text, setText] = useState('');
+  const [text, setText] = useState(idNamePair.name);
 
   function handleLoadList(event, id) {
     console.log(`handleLoadList for ${id}`);
@@ -113,7 +113,7 @@ function ListCard({ idNamePair }) {
         className="list-card"
         onKeyPress={handleKeyPress}
         onChange={handleUpdateText}
-        defaultValue={idNamePair.name}
+        value={text}
         InputLabelProps={{ style: { paddingLeft: '1%' } }}
         autoFocus
       />

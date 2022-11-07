@@ -5,7 +5,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
-import { GlobalStoreContext } from '../store';
+import { GlobalStoreContext, CurrentModal } from '../store';
 
 export default function MUIDeleteModal() {
   const { store } = useContext(GlobalStoreContext);
@@ -23,8 +23,9 @@ export default function MUIDeleteModal() {
     store.hideModals();
   }
 
+  const open = store.currentModal === CurrentModal.DELETE_LIST;
   return (
-    <Dialog open={store.listMarkedForDeletion !== null}>
+    <Dialog open={open}>
       <DialogTitle>
         Delete Playlist?
       </DialogTitle>

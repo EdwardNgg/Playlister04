@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React, { useContext, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
@@ -7,6 +8,7 @@ import SongCard from './SongCard';
 import MUIEditSongModal from './MUIEditSongModal';
 import MUIRemoveSongModal from './MUIRemoveSongModal';
 import { GlobalStoreContext } from '../store';
+import Statusbar from './Statusbar';
 /*
     This React component lets us edit a loaded list, which only
     happens when we are on the proper route.
@@ -50,18 +52,26 @@ function WorkspaceScreen() {
     );
   }
 
+  const boxStyle = {
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    flexDirection: 'column',
+  };
+
   return (
-    <Box>
+    <Box sx={boxStyle}>
+      <Statusbar />
       <List
         id="playlist-cards"
-        sx={{ width: '100%', bgcolor: 'background.paper' }}
+        sx={{ width: '90%', marginTop: '10px', bgcolor: 'background.paper' }}
       >
         {
           store.currentList.songs.map((song, index) => (
             <SongCard
               id={`playlist-song-${index}`}
               // eslint-disable-next-line react/no-array-index-key
-              key={`playlist-song-${index}`}
+              key={`${song._id}`}
               index={index}
               song={song}
             />
