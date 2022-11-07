@@ -67,7 +67,7 @@ function SongCard({ song, index }) {
       >
         <ListItem
           id={`song-${index}-card`}
-          className=""
+          sx={{ bgcolor: 'background.paper' }}
           onClick={handleClick}
           secondaryAction={deleteSongIcon}
         >

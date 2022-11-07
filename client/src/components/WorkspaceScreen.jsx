@@ -57,27 +57,35 @@ function WorkspaceScreen() {
     justifyContent: 'space-evenly',
     alignItems: 'center',
     flexDirection: 'column',
+    height: '90%',
+  };
+
+  const listStyle = {
+    width: '90%',
+    marginTop: '10px',
   };
 
   return (
     <Box sx={boxStyle}>
       <Statusbar />
-      <List
-        id="playlist-cards"
-        sx={{ width: '90%', marginTop: '10px', bgcolor: 'background.paper' }}
-      >
-        {
-          store.currentList.songs.map((song, index) => (
-            <SongCard
-              id={`playlist-song-${index}`}
-              // eslint-disable-next-line react/no-array-index-key
-              key={`${song._id}`}
-              index={index}
-              song={song}
-            />
-          ))
-        }
-      </List>
+      <div className="song-list">
+        <List
+          id="playlist-cards"
+          sx={listStyle}
+        >
+          {
+            store.currentList.songs.map((song, index) => (
+              <SongCard
+                id={`playlist-song-${index}`}
+                // eslint-disable-next-line react/no-array-index-key
+                key={`${song._id}`}
+                index={index}
+                song={song}
+              />
+            ))
+          }
+        </List>
+      </div>
       { modalJSX }
     </Box>
   );

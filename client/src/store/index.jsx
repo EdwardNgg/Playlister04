@@ -406,10 +406,6 @@ function GlobalStoreContextProvider({ children }) {
   store.getPlaylistSize = function getPlaylistSize() {
     return store.currentList.songs.length;
   };
-  store.addNewSong = function addNewSong() {
-    const index = store.getPlaylistSize();
-    store.addCreateSongTransaction(index, 'Untitled', '?', 'dQw4w9WgXcQ');
-  };
   // THIS FUNCTION CREATES A NEW SONG IN THE CURRENT LIST
   // USING THE PROVIDED DATA AND PUTS THIS SONG AT INDEX
   store.createSong = function createSong(index, song) {
@@ -463,7 +459,7 @@ function GlobalStoreContextProvider({ children }) {
   };
   store.addNewSong = () => {
     const playlistSize = store.getPlaylistSize();
-    store.addCreateSongTransaction(playlistSize, 'Untitled', '?', 'dQw4w9WgXcQ');
+    store.addCreateSongTransaction(playlistSize, 'Untitled', 'Unknown', 'dQw4w9WgXcQ');
   };
   // THIS FUNCDTION ADDS A CreateSong_Transaction TO THE TRANSACTION STACK
   store.addCreateSongTransaction = (index, title, artist, youTubeId) => {
