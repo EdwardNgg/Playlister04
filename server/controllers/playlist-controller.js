@@ -8,6 +8,7 @@ const User = require('../models/user-model');
 
     @author McKilla Gorilla
 */
+
 const createPlaylist = (req, res) => {
   const { body } = req;
   console.log(`createPlaylist body: ${JSON.stringify(body)}`);
@@ -27,6 +28,14 @@ const createPlaylist = (req, res) => {
 
   User.findOne({ _id: req.userId }, (err, user) => {
     console.log(`user found: ${JSON.stringify(user)}`);
+
+    if (user.email !== playlist.ownerEmail) {
+      return res.status(403).json({
+        success: false,
+        error: 'Cannot create playlist. Action is forbidden.',
+      });
+    }
+
     user.playlists.push(playlist._id);
     user
       .save()
@@ -41,6 +50,7 @@ const createPlaylist = (req, res) => {
             error,
           }));
       });
+    return null;
   });
   return null;
 };
@@ -139,7 +149,12 @@ const getPlaylistPairs = async (req, res) => {
   }).catch((err) => console.log(err));
 };
 const getPlaylists = async (req, res) => {
-  await Playlist.find({}, (err, playlists) => {
+  const user = await User.findById(req.userId);
+  if (!user) {
+    return res.status(400).json({ success: false, error: 'Cannot get playlists: User does not exist.' });
+  }
+
+  await Playlist.find({ ownerEmail: user.email }, (err, playlists) => {
     if (err) {
       return res.status(400).json({ success: false, error: err });
     }
@@ -150,6 +165,7 @@ const getPlaylists = async (req, res) => {
     }
     return res.status(200).json({ success: true, data: playlists });
   }).catch((err) => console.log(err));
+  return null;
 };
 const updatePlaylist = async (req, res) => {
   const { body } = req;
