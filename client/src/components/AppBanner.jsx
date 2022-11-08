@@ -28,6 +28,7 @@ export default function AppBanner() {
   };
 
   const handleLogout = () => {
+    store.newListCounter = 0;
     handleMenuClose();
     auth.logoutUser();
   };
